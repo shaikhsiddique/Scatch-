@@ -17,14 +17,10 @@ const userSchema = new mongoose.Schema(
       required: true,
       minlength: 6,
     },
-    cart: {
-      type: Array,
-      default: [],
-    },
-    orders: {
-      type: Array,
-      default: [],
-    },
+    cart: [{
+      type : mongoose.Schema.Types.ObjectId,
+      ref: "Product",
+    }],
     contact: {
       type: Number,
       required: true,

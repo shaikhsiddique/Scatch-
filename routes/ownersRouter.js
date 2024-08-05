@@ -1,6 +1,6 @@
 const express = require('express');
 const router = express.Router();
-const { loginOwner, createOwner } = require('../controllers/owner-controller');
+const { loginOwner, createOwner } = require('../controllers/auth-controller');
 const isOwnerIn = require('../middleware/isOwnerIn');
 const { productModel } = require('../models/product-model');
 

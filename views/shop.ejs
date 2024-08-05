@@ -1,51 +1,48 @@
 <%- include('./partials/header') %>
-    <div class="w-full h-screen flex items-start px-20 py-20">
-        <div class="w-[25%] flex h-screen flex-col items-start">
-            <div class="flex items-center gap-2">
-                <h3>sort by</h3>
-                <form action="/shop">
-                    <select class="border-[1px] px-2 py-1" name="sortby" id="">
-                        <option value="popular">Popular</option>
-                        <option value="newest">Newest</option>
-                    </select>
-                </form>
-            </div>
-            <div class="flex flex-col mt-20">
-                <a class="block w-fit mb-2" href="">New Collection</a>
-                <a class="block w-fit mb-2" href="">All Products</a>
-                <a class="block w-fit mb-2" href="">Discounted Products</a>
-            </div>
-            <div class="mt-32">
-                <a class="block w-fit mb-2" href="">Filter by :</a>
-                <a class="block w-fit mb-2" href="">Availability</a>
-                <a class="block w-fit mb-2" href="">Discount</a>
-            </div>
-        </div>
-        <div class="w-[75%] flex flex-col gap-5 h-screen">
-            <div class="flex items-start gap-5">
-                <% products.forEach(function(product) { %>
-                    <div class="w-60">
-                      <div class="w-full h-52 flex items-center justify-center bg-[<%= product.bgcolor %>]">
-                        <img
-                        class="h-[12rem]"
-                        src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
-                        alt="<%= product.name %>"
-                      />
-                      </div>
-                      <div class="flex justify-between bg-[<%= product.panelcolor %>] items-center px-4 py-4 text-[<%= product.textcolor %>]">
-                        <div>
-                          <h3><%= product.name %></h3>
-                          <h4> <%= product.description %></h4>
-                          <h4>₹ <%= product.price %></h4>
-                        </div>
-                        <a class="w-7 h-7 flex items-center justify-center rounded-full bg-white" href="">
-                          <i class="ri-add-line"></i>
-                        </a>
-                      </div>
-                    </div>
-                  <% }) %>
-                  
-            </div>
-        </div>
+
+<div class="w-full h-screen flex items-start px-20 py-20">
+  <div class="w-[25%] flex h-full flex-col items-start">
+    <div class="flex items-center gap-2">
+      <h3>Sort by</h3>
+      <form id="filterForm" method="post">
+        <select class="border-[1px] px-2 py-1" name="sortby">
+          <option value="popular">Popular</option>
+          <option value="newest">Newest</option>
+        </select>
+      </form>
     </div>
-    <%- include('./partials/footer') %>
+    <div class="flex flex-col mt-20">
+      <a class="block w-fit mb-2 text-blue-500 hover:underline" href="/shop/new-collection">New Collection</a>
+      <a class="block w-fit mb-2 text-blue-500 hover:underline" href="/users/cart">Carts</a>
+      <a class="block w-fit mb-2 text-blue-500 hover:underline" href="/shop/discounted-products">Discounted Products</a>
+    </div>
+    <div class="mt-32">
+      <p class="mb-2 text-gray-700">Filter by :</p>
+      <a class="block w-fit mb-2 text-gray-500 hover:underline" href="#">Availability</a>
+      <a class="block w-fit mb-2 text-gray-500 hover:underline" href="#">Discount</a>
+    </div>
+  </div>
+  <div class="w-[75%] flex flex-col gap-5 h-full overflow-y-auto">
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+      <% products.forEach(function(product) { %>
+      <div class="w-full p-4 rounded-lg shadow-md border hover:shadow-lg transition-shadow duration-300" style="background-color: <%= product.bgcolor %>;">
+        <div class="w-full h-52 flex items-center justify-center rounded-lg bg-gray-100 overflow-hidden" style="background-color: <%= product.bgcolor %>;">
+          <img class="h-full object-cover" src="data:image/jpeg;base64,<%= product.image.toString('base64') %>" alt="<%= product.name %>">
+        </div>
+        <div class="flex justify-between items-center w-full px-4 py-4 mt-4 rounded-b-lg" style="color: <%= product.textcolor %>; background-color: <%= product.panelcolor %>;">
+          <div>
+            <h3 class="font-semibold"><%= product.name %></h3>
+            <h4 class="font-bold">₹ <%= product.price %></h4>
+            <p class="text-sm py-3"><%= product.description %></p>
+          </div>
+          <a class="w-10 h-10 flex items-center justify-center rounded-full bg-white shadow-md hover:bg-gray-200 transition-colors duration-300" href="/users/addcart/<%= product._id %>">
+            <i class="ri-add-line text-xl text-gray-700"></i>
+          </a>
+        </div>
+      </div>
+      <% }) %>
+    </div>
+  </div>
+</div>
+<script src="/javascript/shop-script.js"></script>
+<%- include('./partials/footer') %>

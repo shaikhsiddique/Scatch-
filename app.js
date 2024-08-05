@@ -15,7 +15,7 @@ const userRouter = require('./routes/usersRouter');
 const ownersRouter = require('./routes/ownersRouter');
 const productsRouter = require('./routes/productsRouter');
 const indexRouter = require('./routes/index');
-const isLoggedIn = require('./middleware/isLoggedin');
+const isLoggedIn = require('./middleware/isLoggedIn');
 
 app.set('view engine', 'ejs');
 app.use(express.json());

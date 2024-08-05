@@ -45,6 +45,11 @@ const productSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: "Owner",
   },
+  date: {
+    type: Date,
+    default: Date.now
+  }
+  
 });
 
 const validateProductModel = (data) => {
