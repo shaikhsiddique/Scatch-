@@ -1,7 +1,9 @@
 const express = require("express");
 const isLoggedIn = require("../middleware/isLoggedin");
 const { productModel } = require("../models/product-model");
+const { showShop } = require("../controllers/user-controller");
 const router = express.Router();
+
 
 router.get("/", async (req, res) => {
   const error = req.flash("error") || []; // Provide a default empty array if there are no error messages
@@ -9,17 +11,12 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/shop", isLoggedIn, async (req, res) => {
-  try {
-    const products = await productModel.find();
-    res.render("shop.ejs", { products });
-  } catch (err) {
-    console.error(err);
-    res.status(500).send("Server Error");
-  }
+  showShop(req,res);
 });
 
 router.get("/logout", (req, res) => {
   res.cookie("token", null);
+  res.cookie('owner',null)
   res.redirect("/");
 });
 module.exports = router;

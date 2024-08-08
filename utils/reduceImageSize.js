@@ -3,8 +3,7 @@ const sharp = require('sharp');
 const reduceImageSize = async (buffer) => {
   try {
     const processedImageBuffer = await sharp(buffer)
-      .resize({ width: 800, height: 600 }) // Resize image
-      .toFormat('jpeg') // Convert to JPEG format
+      .toFormat('png') 
       .toBuffer();
     return processedImageBuffer;
   } catch (error) {

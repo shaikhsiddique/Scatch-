@@ -21,8 +21,6 @@ const createProduct = async (req, res) => {
     const panelcolorRgb = colorToRbg(req.body.panelcolor);
     const textcolorRgb = colorToRbg(req.body.textcolor);
 
-    console.log("Converted Colors:", bgcolorRgb, panelcolorRgb, textcolorRgb);
-
     // Create product data object
     const productData = {
       image: imageBuffer,

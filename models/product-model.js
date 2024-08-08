@@ -27,7 +27,6 @@ const productSchema = new mongoose.Schema({
     type: Number,
     default: 0,
     min: 0,
-    max: 100,
   },
   bgcolor: {
     type: String,
@@ -58,7 +57,7 @@ const validateProductModel = (data) => {
     name: Joi.string().min(3).max(100).required(),
     description: Joi.string().min(3).max(100).required(),
     price: Joi.number().min(0).required(),
-    discount: Joi.number().min(0).max(100),  
+    discount: Joi.number().min(0),  
     bgcolor: Joi.string().required(),
     panelcolor: Joi.string().required(),
     textcolor: Joi.string().required(),

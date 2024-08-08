@@ -15,48 +15,51 @@
       <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8">
         <% products.forEach(product => { %>
           <div
-            class="flex flex-col rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 p-2"
-            style="background-color: <%= product.bgcolor %>; width: 300px; height: 400px;"
+            class="flex flex-col w-full rounded-lg overflow-hidden shadow-lg transition-transform transform hover:scale-105 p-2"
+            style="background-color: <%= product.bgcolor %>;"
           >
             <div
-              class="w-full h-[60%] flex items-center justify-center rounded-lg"
-              style="background-color: <%= product.bgcolor %>;"
+              class="w-full h-54 flex items-center justify-center bg-gray-200 rounded-t-lg overflow-hidden"
+              
             >
               <img
-                class="h-full w-full object-cover"
-                src="data:image/jpeg;base64,<%= product.image.toString('base64') %>"
+               style="object-fit:contain;background-position: center; height: 300px"
+                src="data:image/png;base64,<%= product.image.toString('base64') %>"
                 alt="<%= product.name %>"
               />
             </div>
             <div
-              class="flex flex-col px-4 py-3 h-[20%]"
+              class="flex flex-col px-3 py-2"
               style="color: <%= product.textcolor %>; background-color: <%= product.panelcolor %>;"
             >
-              <h3 class="text-lg font-semibold mb-1"><%= product.name %></h3>
-              <h4 class="text-md mb-2">₹ <%= product.price %></h4>
+              <h3 class="text-md font-semibold mb-1"><%= product.name %></h3>
+              <div class="flex items-baseline gap-2 mb-2">
+                <h4 class="font-bold text-lg text-red-600 line-through">₹ <%= product.price %></h4>
+                <h4 class="font-bold text-lg text-green-600">₹ <%= product.discount %></h4>
+              </div>
             </div>
-            <div class="flex flex-col px-4 py-2 h-[20%]" style="color: <%= product.textcolor %>; background-color: <%= product.panelcolor %>;">
-              <h4 class="text-sm"><%= product.description %></h4>
+            <div class="flex flex-col px-3 py-2" style="color: <%= product.textcolor %>; background-color: <%= product.panelcolor %>;">
+              <p class="text-sm"><%= product.description %></p>
             </div>
-            <div class="flex items-center gap-3 px-4 py-3" style="background-color: <%= product.panelcolor %>;">
+            <div class="flex items-center justify-between px-3 py-2" style="background-color: <%= product.panelcolor %>;">
               <a
-                class="w-7 h-7 flex items-center justify-center rounded-full bg-white hover:bg-gray-200 transition-colors"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-gray-200 transition-colors"
                 href="/products/delete/<%= product._id %>"
               >
-                <i class="ri-delete-bin-line text-red-600"></i>
+                <i class="ri-delete-bin-line text-red-600 text-lg"></i>
               </a>
               <a
-                class="w-7 h-7 flex items-center justify-center rounded-full bg-white hover:bg-gray-200 transition-colors"
+                class="w-8 h-8 flex items-center justify-center rounded-full bg-white hover:bg-gray-200 transition-colors"
                 href="/products/edit/<%= product._id %>"
               >
-                <i class="ri-edit-line"></i>
+                <i class="ri-edit-line text-lg"></i>
               </a>
             </div>
           </div>
         <% }) %>
       </div>
     <% } else { %>
-      <p class="text-gray-500">No products available.</p>
+      <p class="text-gray-500 text-center">No products available.</p>
     <% } %>
   </div>
 </div>

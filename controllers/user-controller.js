@@ -16,4 +16,14 @@ const showCart = async (req, res) => {
   res.render("cart.ejs", { products });
 };
 
-module.exports = {addToCart ,showCart};
+const showShop = async (req,res)=>{
+  try {
+    const products = await productModel.find();
+    res.render("shop.ejs", { products });
+  } catch (err) {
+    console.error(err);
+    res.status(500).send("Server Error");
+  }
+}
+
+module.exports = {addToCart ,showCart , showShop};

@@ -1,57 +1,60 @@
 document.addEventListener('DOMContentLoaded', () => {
-    const products = document.querySelectorAll('[id^="add-"], [id^="sub-"]');
-    const netTotalElement = document.getElementById('net-total');
-    const productCountElement = document.getElementById('product-count');
-    const totalProducts = products.length / 2; // Since each product has both add and sub buttons
-
-    let grandTotal = 0;
-
-    // Function to update the grand total
-    const updateGrandTotal = () => {
-        grandTotal = 0;
-        for (let i = 0; i < totalProducts; i++) {
-            let productCount = parseInt(document.getElementById(`productCount-${i}`).innerHTML) || 0;
-            let productCost = parseFloat(document.getElementById(`price-${i}`).value) || 0;
-            grandTotal += (productCost * productCount); // Add platform fee for each product
+    const updateTotalAmount = () => {
+      let netTotal = 0;
+      let totalProductCount = 0;
+  
+      // Loop through each product
+      document.querySelectorAll('[data-product-id]').forEach((product, index) => {
+        const countElement = document.getElementById(`productCount-${index}`);
+        const priceElement = document.getElementById(`price-${index}`);
+        const totalPriceElement = document.getElementById(`total-price-${index}`);
+  
+        if (countElement && priceElement && totalPriceElement) {
+          const productCount = parseInt(countElement.textContent) || 0;
+          const productDiscount = parseFloat(priceElement.value) || 0;
+          const platformFee = 20; // Fixed platform fee
+  
+          const totalCost = (productDiscount * productCount) + platformFee;
+          totalPriceElement.textContent = `₹ ${totalCost.toFixed(2)}`;
+  
+          // Update net total and product count
+          netTotal += totalCost;
+          totalProductCount += productCount;
         }
-        grandTotal+=20
-        netTotalElement.innerHTML = `Net Total: ₹ ${grandTotal.toFixed(2)}`;
+      });
+  
+      // Update the net total and product count in the DOM
+      document.getElementById('net-total').textContent = `Net Total: ₹ ${netTotal.toFixed(2)}`;
+      document.getElementById('product-count').textContent = `Total products: ${totalProductCount}`;
+  
+      // Update hidden input for form submission
+      document.getElementById('order-amount').value = netTotal.toFixed(2);
     };
-
-    products.forEach(product => {
-        let index = product.id.split('-')[1];
-        let productCount = parseInt(document.getElementById(`productCount-${index}`).innerHTML) || 1;
-
-        // Event listeners for add and subtract buttons
-        document.getElementById(`add-${index}`).addEventListener('click', () => {
-            productCount++;
-            document.getElementById(`productCount-${index}`).innerHTML = productCount;
-            calculatePrice(index, productCount);
-        });
-
-        document.getElementById(`sub-${index}`).addEventListener('click', () => {
-            if (productCount > 0) {
-                productCount--;
-                document.getElementById(`productCount-${index}`).innerHTML = productCount;
-                calculatePrice(index, productCount);
-            }
-        });
-
-        // Function to calculate price for each product
-        const calculatePrice = (index, productCount) => {
-            let productCost = parseFloat(document.getElementById(`price-${index}`).value) || 0;
-            let totalCost = (productCost * productCount) + 20; // Add platform fee for each product
-            if(!productCount){
-                totalCost =0;
-            }
-            document.getElementById(`total-price-${index}`).innerHTML = `₹ ${totalCost.toFixed(2)}`;
-            updateGrandTotal();
-        };
-
-        // Initialize total cost for each product
-        calculatePrice(index, productCount);
+  
+    // Add event listeners to increase and decrease buttons
+    document.querySelectorAll('[id^="add-"]').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = button.id.split('-')[1];
+        const countElement = document.getElementById(`productCount-${index}`);
+        if (countElement) {
+          countElement.textContent = parseInt(countElement.textContent) + 1;
+          updateTotalAmount();
+        }
+      });
     });
-
-    // Initial call to update grand total on page load
-    updateGrandTotal();
-});
+  
+    document.querySelectorAll('[id^="sub-"]').forEach(button => {
+      button.addEventListener('click', () => {
+        const index = button.id.split('-')[1];
+        const countElement = document.getElementById(`productCount-${index}`);
+        if (countElement && parseInt(countElement.textContent) > 1) {
+          countElement.textContent = parseInt(countElement.textContent) - 1;
+          updateTotalAmount();
+        }
+      });
+    });
+  
+    // Initial update
+    updateTotalAmount();
+  });
+  
